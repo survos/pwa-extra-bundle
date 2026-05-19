@@ -7,7 +7,7 @@ namespace Survos\PwaExtraBundle;
 use Psr\Container\ContainerInterface;
 use SpomkyLabs\PwaBundle\CachingStrategy\HasCacheStrategies;
 use SpomkyLabs\PwaBundle\Dto\ServiceWorker;
-use Survos\CoreBundle\Bundle\AssetMapperBundle;
+use Survos\Kit\AbstractUxBundle;
 use Survos\PwaExtraBundle\Attribute\PwaExtra;
 use Survos\PwaExtraBundle\CacheWarmer\PwaCacheWarmer;
 use Survos\PwaExtraBundle\CachingStrategy\DymamicCachingStrategy;
@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
-class SurvosPwaExtraBundle extends AssetMapperBundle implements CompilerPassInterface
+class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInterface
 {
     public const ASSET_PACKAGE = 'pwa-extra';
 
