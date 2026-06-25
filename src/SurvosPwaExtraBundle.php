@@ -32,12 +32,6 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
 {
     public const ASSET_PACKAGE = 'pwa-extra';
 
-    public function build(ContainerBuilder $container): void
-    {
-        parent::build($container);
-        $container->addCompilerPass($this);
-    }
-
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
