@@ -1,5 +1,14 @@
 # PWA Extra Bundle
 
+**Status (2026-07-24): unused, not wired into any app.** This bundle grew out of gaps felt in
+[spomky-labs/pwa-bundle](https://github.com/Spomky-Labs/phpwa) — a debug-toolbar panel
+(`PwaCollector`), event listeners, a config-generation command, an install-prompt Twig component,
+and a screenshot command. Enough of that has since landed upstream in phpwa itself that this
+bundle needs a fresh look before it's useful again: check what upstream now covers, keep only
+what still fills a real gap, and rewire it into an app before relying on it. It's excluded from
+mono's root `phpstan.neon` analysis (kept, not deleted) because `spomky-labs/pwa-bundle` isn't
+currently installed anywhere in the monorepo, so its DTOs don't resolve.
+
 This bundle is a playground for ideas to improve https://github.com/Spomky-Labs/phpwa
 
 The idea is that after these tools are developed they'll be incorporated into that the core bundle and this one won't be necessary.  
