@@ -6,11 +6,12 @@ declare(strict_types=1);
 namespace Survos\PwaExtraBundle\Service;
 
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
-use SpomkyLabs\PwaBundle\Dto\Manifest;
 use SpomkyLabs\PwaBundle\Dto\ServiceWorker;
 use SpomkyLabs\PwaBundle\Dto\Workbox;
 use SpomkyLabs\PwaBundle\Service\CacheStrategy;
 use SpomkyLabs\PwaBundle\Service\HasCacheStrategies;
+use SpomkyLabs\PwaBundle\Service\ManifestBuilder;
+use SpomkyLabs\PwaBundle\Service\ServiceWorkerBuilder;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -32,10 +33,14 @@ final class PwaService
     public const NetworkFirst = 'NetworkFirst';
     public const StaleWhileRevalidate = 'StaleWhileRevalidate';
 
+    private ServiceWorker $serviceWorker;
+
+    private \SpomkyLabs\PwaBundle\Dto\Manifest $manifest;
+
     public function __construct(
         private string                                                                $cacheFilename,
-        private ServiceWorker                                                         $serviceWorker,
-        private Manifest                                                              $manifest,
+        ServiceWorkerBuilder                                                          $serviceWorkerBuilder,
+        ManifestBuilder                                                               $manifestBuilder,
         private NormalizerInterface                                                   $normalizer,
         private SerializerInterface                                                   $serializer,
         private RouterInterface                                                       $router,
@@ -43,6 +48,8 @@ final class PwaService
         private array                                                                 $config = [],
     )
     {
+        $this->serviceWorker = $serviceWorkerBuilder->create();
+        $this->manifest = $manifestBuilder->create();
     }
 
     public static function getTemplate(): ?string

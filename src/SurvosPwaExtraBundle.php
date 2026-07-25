@@ -6,14 +6,12 @@ namespace Survos\PwaExtraBundle;
 
 use Psr\Container\ContainerInterface;
 use SpomkyLabs\PwaBundle\CachingStrategy\HasCacheStrategies;
-use SpomkyLabs\PwaBundle\Dto\ServiceWorker;
 use Survos\Kit\AbstractUxBundle;
 use Survos\PwaExtraBundle\Attribute\PwaExtra;
 use Survos\PwaExtraBundle\CacheWarmer\PwaCacheWarmer;
 use Survos\PwaExtraBundle\CachingStrategy\DymamicCachingStrategy;
 use Survos\PwaExtraBundle\Command\PwaConfigureCommand;
 use Survos\PwaExtraBundle\Controller\PwaExtraController;
-use Survos\PwaExtraBundle\DataCollector\PwaCollector;
 use Survos\PwaExtraBundle\Service\PwaService;
 use Survos\PwaExtraBundle\Twig\Components\ConnectionDetector;
 use Survos\PwaExtraBundle\Twig\Components\PwaInstallComponent;
@@ -57,17 +55,9 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
         }
 
         $builder->autowire(PwaService::class)
-            ->setArgument('$serviceWorker', new Reference(ServiceWorker::class))
             ->setArgument('$cacheFilename', $this->getCachedDataFilename($builder))
             ->setArgument('$cacheServices', tagged_iterator('spomky_labs_pwa.cache_strategy'))
             ->setArgument('$config', $config);
-
-        $builder->autowire(PwaCollector::class)
-            ->setArgument('$pwaService', new Reference(PwaService::class))
-            ->addTag('data_collector', [
-                'template' => '@SurvosPwaExtra/data_collector/pwa_collector.html.twig'
-            ]);
-
 
         $builder
             ->autowire('pwa.cache_warmer', PwaCacheWarmer::class)
