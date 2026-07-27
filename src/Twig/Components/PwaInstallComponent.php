@@ -15,10 +15,9 @@ final class PwaInstallComponent
     }
 
     #[PreMount()]
-    public function mount()
+    public function mount(): never
     {
-        return ['stimulusController' => $this->stimulusController];
-
+        throw new \LogicException('The <twig:PwaInstall> component has been removed. Use the @spomky-labs/pwa-bundle/install Stimulus controller instead.');
     }
 
 }

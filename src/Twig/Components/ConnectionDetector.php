@@ -15,10 +15,9 @@ final class ConnectionDetector
     }
 
     #[PreMount()]
-    public function mount()
+    public function mount(): never
     {
-        return ['stimulusController' => $this->stimulusController];
-
+        throw new \LogicException('The <twig:ConnectionDetector> component has been removed. Use the @spomky-labs/pwa-bundle/connection-status Stimulus controller instead.');
     }
 
 }
