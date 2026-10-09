@@ -28,9 +28,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_it
 // Symfony\Component\HttpKernel\Bundle\Bundle <-- Flex auto-registration marker (see Survos\Kit\AbstractSurvosBundle)
 class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInterface
 {
-    public const ASSET_PACKAGE = 'pwa-extra';
-
-
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
 
@@ -77,7 +74,7 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
     {
         $definition->rootNode()
             ->children()
-            ->scalarNode('stimulus_controller')->defaultValue('@survos/pwa-extra/detector')->end();
+            ->scalarNode('stimulus_controller')->defaultValue('@survos/pwa-extra-bundle/detector')->end();
     }
 
 

@@ -1,5 +1,5 @@
 {
-  "name": "@survos/pwa-extra",
+  "name": "@survos/pwa-extra-bundle",
   "description": "integrate php and javascript helpers for phpwa",
   "license": "MIT",
   "version": "1.1.1",

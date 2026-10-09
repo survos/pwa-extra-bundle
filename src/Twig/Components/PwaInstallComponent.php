@@ -9,7 +9,7 @@ use Symfony\UX\TwigComponent\Attribute\PreMount;
 final class PwaInstallComponent
 {
     public function __construct(
-        public string $stimulusController='@survos/pwa-extra/install')
+        public string $stimulusController='@survos/pwa-extra-bundle/install')
     {
 
     }

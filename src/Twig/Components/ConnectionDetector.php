@@ -9,7 +9,7 @@ use Symfony\UX\TwigComponent\Attribute\PreMount;
 final class ConnectionDetector
 {
     public function __construct(
-        public string $stimulusController='@survos/pwa-extra/detector')
+        public string $stimulusController='@survos/pwa-extra-bundle/detector')
     {
 
     }
