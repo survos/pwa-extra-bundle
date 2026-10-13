@@ -24,10 +24,11 @@ final class PwaConfigureCommand
         #[Option('Override existing configuration')] bool $force = false,
     ): int {
         $projectDir = $this->bag->get('kernel.project_dir');
-        $composerFilename = $projectDir . '/composer.json';
+        $composerFilename = $projectDir.'/composer.json';
 
         if (!file_exists($composerFilename)) {
             $io->writeln('Missing composer.json!');
+
             return Command::FAILURE;
         }
 
@@ -36,11 +37,13 @@ final class PwaConfigureCommand
             if (!array_key_exists($requiredField, $composerData)) {
                 $io->writeln("Missing $requiredField in composer.json, please add it with ");
                 $io->writeln("composer config $requiredField ");
+
                 return Command::FAILURE;
             }
         }
 
         $io->writeln('<info>Done</info>');
+
         return Command::SUCCESS;
     }
 }

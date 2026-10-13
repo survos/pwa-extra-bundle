@@ -1,11 +1,9 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Survos\PwaExtraBundle\Service;
 
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
 use SpomkyLabs\PwaBundle\Dto\ServiceWorker;
 use SpomkyLabs\PwaBundle\Dto\Workbox;
 use SpomkyLabs\PwaBundle\Service\CacheStrategy;
@@ -25,7 +23,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class PwaService
 {
-
     // these probably should go in an interface or in the PWA bundle somewhere.
     public const NetworkOnly = 'NetworkOnly';
     public const CacheOnly = 'CacheOnly';
@@ -38,16 +35,15 @@ final class PwaService
     private \SpomkyLabs\PwaBundle\Dto\Manifest $manifest;
 
     public function __construct(
-        private string                                                                $cacheFilename,
-        ServiceWorkerBuilder                                                          $serviceWorkerBuilder,
-        ManifestBuilder                                                               $manifestBuilder,
-        private NormalizerInterface                                                   $normalizer,
-        private SerializerInterface                                                   $serializer,
-        private RouterInterface                                                       $router,
+        private string $cacheFilename,
+        ServiceWorkerBuilder $serviceWorkerBuilder,
+        ManifestBuilder $manifestBuilder,
+        private NormalizerInterface $normalizer,
+        private SerializerInterface $serializer,
+        private RouterInterface $router,
         #[TaggedIterator('spomky_labs_pwa.cache_strategy')] private readonly iterable $cacheServices,
-        private array                                                                 $config = [],
-    )
-    {
+        private array $config = [],
+    ) {
         $this->serviceWorker = $serviceWorkerBuilder->create();
         $this->manifest = $manifestBuilder->create();
     }
@@ -70,27 +66,24 @@ final class PwaService
         // argh, there must be a better way to do this! Normalizer?
         return json_decode($this->serializer->serialize($this->manifest, 'json'), true);
         dd($this->manifest);
-
     }
 
     public function getRouteDetails(string $route)
     {
         $routes = $this->router->getRouteCollection();
         dd($routes);
-
-
     }
 
     public function getCacheInfo()
     {
-
         // this is just a map to make it easier to debug
         $services = [];
         foreach ($this->cacheServices as $service) {
             $strategies = $service->getCacheStrategies();
             $services[(new \ReflectionClass($service::class))->getShortName()] = $this->normalizer->normalize($strategies, null);
         }
-//        dd($services);
+
+        //        dd($services);
         return $services;
 
         $strategies = $service->getCacheStrategies();
@@ -117,26 +110,27 @@ final class PwaService
                 dump(cacheStrategy: $cacheStrategy, strategy: $strategy);
             }
         }
-//        dd($cacheStrategies);
+        //        dd($cacheStrategies);
         dd($this->getWorkbox());
         foreach ($this->getWorkbox() as $var => $val) {
             if (is_object($val)) {
                 $className = $val::class;
                 $name = $val->cacheName ?? null;
-//                dd($val, $cacheStrategies[$name]);
+                //                dd($val, $cacheStrategies[$name]);
                 if (str_ends_with($className, 'Cache')) {
-                    $cache[] = (array)$val + [
-                            'strategies' => $name ? $cacheStrategies[$name] : [],
-                            'shortName' => (new \ReflectionClass($className))->getShortName()];
+                    $cache[] = (array) $val + [
+                        'strategies' => $name ? $cacheStrategies[$name] : [],
+                        'shortName' => (new \ReflectionClass($className))->getShortName()];
                 }
             }
         }
+
         return $cache;
     }
 
     public function getReferenceUrl(string $strategy): string
     {
-        return 'https://developer.chrome.com/docs/workbox/modules/workbox-strategies#' . $strategy;
+        return 'https://developer.chrome.com/docs/workbox/modules/workbox-strategies#'.$strategy;
     }
 
     public function getConfigValue(string $key)
@@ -152,12 +146,10 @@ final class PwaService
     public function getWorkbox(): Workbox
     {
         return $this->serviceWorker->workbox;
-
     }
 
     public function getMinMax(string $key): array
     {
-        return [$this->getConfigValue('min' . $key . 'Length'), $this->getConfigValue('max' . $key . 'Length')];
+        return [$this->getConfigValue('min'.$key.'Length'), $this->getConfigValue('max'.$key.'Length')];
     }
-
 }

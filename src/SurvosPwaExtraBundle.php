@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /** generated from /home/tac/ca/survos/packages/maker-bundle/templates/skeleton/bundle/src/Bundle.tpl.php */
 
 namespace Survos\PwaExtraBundle;
 
-use Psr\Container\ContainerInterface;
-use SpomkyLabs\PwaBundle\CachingStrategy\HasCacheStrategies;
 use Survos\Kit\AbstractUxBundle;
 use Survos\PwaExtraBundle\Attribute\PwaExtra;
 use Survos\PwaExtraBundle\CacheWarmer\PwaCacheWarmer;
-use Survos\PwaExtraBundle\CachingStrategy\DymamicCachingStrategy;
 use Survos\PwaExtraBundle\Command\PwaConfigureCommand;
 use Survos\PwaExtraBundle\Controller\PwaExtraController;
 use Survos\PwaExtraBundle\Service\PwaService;
@@ -22,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Routing\Attribute\Route;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 // Symfony\Component\HttpKernel\Bundle\Bundle <-- Flex auto-registration marker (see Survos\Kit\AbstractSurvosBundle)
@@ -30,13 +29,11 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
 {
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-
         $builder->autowire(PwaExtraController::class)
             ->setAutoconfigured(true)
             ->setPublic(true)
             ->setArgument('$config', $config)
         ;
-
 
         $builder->autowire(PwaConfigureCommand::class)
             ->setAutoconfigured(true)
@@ -62,12 +59,10 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
 //        ->addTag('container.service_subscriber', ['id' => 'pwa_service'])
             ->addTag('kernel.cache_warmer', ['priority' => 100]);
 
-
         $definition = $builder
             ->autowire('survos.pwa_twig', TwigExtension::class)
             ->addTag('twig.extension')
             ->setArgument('$pwaService', new Reference(PwaService::class));
-
     }
 
     public function configure(DefinitionConfigurator $definition): void
@@ -77,11 +72,11 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
             ->scalarNode('stimulus_controller')->defaultValue('@survos/pwa-extra-bundle/detector')->end();
     }
 
-
     private function getCachedDataFilename(ContainerBuilder $container)
     {
         $kernelCacheDir = $container->getParameter('kernel.cache_dir');
-        return $kernelCacheDir . '/pwa_routes.json';
+
+        return $kernelCacheDir.'/pwa_routes.json';
     }
 
     // The compiler pass
@@ -90,10 +85,9 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
         $cachingStrategyByRoute = [];
         $cachingStrategyByMethod = [];
         $taggedServices = $container->findTaggedServiceIds('container.service_subscriber');
-//        $router = $container->getServiceIds()
-//        $router = $this->container->get('router');
-//        dd($router->getRouteCollection());
-
+        //        $router = $container->getServiceIds()
+        //        $router = $this->container->get('router');
+        //        dd($router->getRouteCollection());
 
         foreach (array_keys($taggedServices) as $controllerClass) {
             if (!class_exists($controllerClass)) {
@@ -113,7 +107,7 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
                     $args = $attribute->getArguments();
                     $routeName = $args['name'] ?? $method->getName();
                     // get the regex
-//                    $details =
+                    //                    $details =
                     if ($classCacheStrategy) {
                         $cachingStrategyByMethod[$routeName] = $classCacheStrategy;
                         $cachingStrategyByRoute[$routeName] = $classCacheStrategy;
@@ -136,8 +130,5 @@ class SurvosPwaExtraBundle extends AbstractUxBundle implements CompilerPassInter
             return;
         }
         $def = $container->getDefinition('twig');
-
     }
-
-
 }

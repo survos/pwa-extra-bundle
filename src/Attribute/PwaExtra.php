@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -15,10 +17,8 @@ namespace Survos\PwaExtraBundle\Attribute;
 class PwaExtra
 {
     public function __construct(
-        private ?string $cacheStrategy = null
-    )
-    {
-
+        private ?string $cacheStrategy = null,
+    ) {
     }
 
     public function getCacheStrategy(): ?string

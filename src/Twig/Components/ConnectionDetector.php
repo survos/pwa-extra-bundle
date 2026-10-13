@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Survos\PwaExtraBundle\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 
-#[AsTwigComponent(name: 'ConnectionDetector', template:'@SurvosPwaExtra/components/ConnectionDetector.html.twig')]
+#[AsTwigComponent(name: 'ConnectionDetector', template: '@SurvosPwaExtra/components/ConnectionDetector.html.twig')]
 final class ConnectionDetector
 {
     public function __construct(
-        public string $stimulusController='@survos/pwa-extra-bundle/detector')
+        public string $stimulusController = '@survos/pwa-extra-bundle/detector')
     {
-
     }
 
     #[PreMount()]
@@ -19,5 +20,4 @@ final class ConnectionDetector
     {
         throw new \LogicException('The <twig:ConnectionDetector> component has been removed. Use the @spomky-labs/pwa-bundle/connection-status Stimulus controller instead.');
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -32,13 +34,12 @@ class PwaCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
     public function __construct(private RouterInterface $router) // ContainerInterface $container)
     {
         // As this cache warmer is optional, dependencies should be lazy-loaded, that's why a container should be injected.
-//        $this->container = $container;
+        //        $this->container = $container;
     }
 
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         return [];
-
 
         if ($route = $this->router->getRouteCollection()->get('app_voyage_show')) {
             dd($buildDir, $route, $route->compile()->getRegex());
@@ -47,13 +48,14 @@ class PwaCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
             $router = $this->container->get('router');
             dd($router->getRouteCollection());
         }
-        return [];
-//
-//        if ($router instanceof WarmableInterface) {
-//            return (array) $router->warmUp($cacheDir, $buildDir);
-//        }
 
-//        throw new \LogicException(sprintf('The router "%s" cannot be warmed up because it does not implement "%s".', get_debug_type($router), WarmableInterface::class));
+        return [];
+        //
+        //        if ($router instanceof WarmableInterface) {
+        //            return (array) $router->warmUp($cacheDir, $buildDir);
+        //        }
+
+        //        throw new \LogicException(sprintf('The router "%s" cannot be warmed up because it does not implement "%s".', get_debug_type($router), WarmableInterface::class));
     }
 
     public function isOptional(): bool

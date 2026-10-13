@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Survos\PwaExtraBundle\Twig;
 
 use Survos\PwaExtraBundle\Service\PwaService;
